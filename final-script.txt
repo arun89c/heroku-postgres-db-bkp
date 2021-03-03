@@ -1,0 +1,5 @@
+#\bin\bash
+Date=$(date +"%m-%d-%Y")
+heroku pg:backups:capture postgresql-round-24137  --app bf-i-avago
+heroku pg:backups:download --output=/tmp/post-bkp-$Date.dump --app bf-i-avago
+aws s3 cp /tmp/post-bkp-$Date.dump "s3://postbkp/post-bkp-$Date.dump"
