@@ -1,0 +1,8 @@
+createdb -h localhost -p 5432 -U prs_prod_user testdb
+
+C:\Program Files\PostgreSQL\13\bin>psql.exe -U prs_prod_user -d guru99 -f  C:\Users\Arun\Downloads\avgotest.dump
+set search_path=avgotest;
+
+heroku pg:backups:capture postgresql-round-24137  --app bf-i-avago
+heroku pg:backups:download --app bf-i-avago
+heroku pg:backups --app bf-i-avago
