@@ -1,0 +1,41 @@
+#!/bin/bash/
+
+# Database name
+db_name=xxxxxx
+
+# Backup storage directory 
+backupfolder=~/postgresql/backups
+
+sqlfile=$backupfolder/all-database-$(date +%d-%m-%Y_%H-%M-%S).sql
+zipfile=$backupfolder/all-database-$(date +%d-%m-%Y_%H-%M-%S).zip
+
+#create backup folder
+mkdir -p $backupfolder
+
+# Create a backup
+
+if pg_dump $db_name > $sqlfile ; then
+   echo 'Sql dump created'
+else
+   echo 'No backup was created!' 
+   exit
+fi
+
+# Compress backup 
+if gzip -c $sqlfile > $zipfile; then
+   echo 'The backup was successfully compressed'
+else
+   echo 'Error compressing backup'
+   exit
+fi
+
+# restore the backup
+
+gunzip -c $sqlfile | psql -U username -h host2 dbname
+
+
+
+====================================
+
+
+
